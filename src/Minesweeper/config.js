@@ -1,3 +1,5 @@
+export const DEFAULT_DIFFICULTY = 'Custom';
+
 export const Config = {
   Custom: {
     grid: `
@@ -8,6 +10,8 @@ export const Config = {
    * *     * 
    * *** *** 
  `.split('\n').filter(row => row),
+    hideMinesOnGameOver: true,
+    startRevealedCell: { row: 6, column: 0 }
   },
   Beginner: {
     rows: 9,

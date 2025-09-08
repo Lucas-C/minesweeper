@@ -74,24 +74,28 @@ function reducer(state, action = {}) {
       };
     }
     case 'GAME_OVER': {
-      const ceils = state.ceils.map(ceil => {
-        if (ceil.minesAround < 0 && ceil.state !== 'flag') {
-          return {
-            ...ceil,
-            state: 'mine',
-          };
-        } else if (ceil.state === 'flag' && ceil.minesAround >= 0) {
-          return {
-            ...ceil,
-            state: 'misflagged',
-          };
-        } else {
-          return {
-            ...ceil,
-            opening: false,
-          };
-        }
-      });
+      const config = Config[state.difficulty]
+      let ceils = state.ceils
+      if (!config.hideMinesOnGameOver) {
+        ceils = ceils.map(ceil => {
+          if (ceil.minesAround < 0 && ceil.state !== 'flag') {
+            return {
+              ...ceil,
+              state: 'mine',
+            };
+          } else if (ceil.state === 'flag' && ceil.minesAround >= 0) {
+            return {
+              ...ceil,
+              state: 'misflagged',
+            };
+          } else {
+            return {
+              ...ceil,
+              opening: false,
+            };
+          }
+        });
+      }
       ceils[action.payload].state = 'die';
       return {
         ...state,
@@ -217,7 +221,16 @@ function MineSweeper({
     if (state.status === 'started' && checkRemains() === 0) {
       dispatch({ type: 'WON' });
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+  useEffect(() => {
+    const config = Config[state.difficulty]
+    if (seconds === 0 && config.startRevealedCell) {
+      const { row, column } = config.startRevealedCell;
+      openCeil(row * config.columns + column);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, seconds])
   function onReset(difficulty) {
     dispatch({ type: 'CLEAR_MAP', payload: difficulty });
   }

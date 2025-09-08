@@ -10,7 +10,12 @@ Features:
 - Switch difficulty from the menu
 - Support mobile! (long press for placing flags)
 
-This **fork** of [ShizukuIchi/minesweeper](https://github.com/ShizukuIchi/minesweeper) simply adds the possibility to define custom fixed grids, _cf._ [src/Minesweeper/config.js](./src/Minesweeper/config.js)
+This **fork** of [ShizukuIchi/minesweeper](https://github.com/ShizukuIchi/minesweeper) just adds a few extra features, _cf._ [src/Minesweeper/config.js](./src/Minesweeper/config.js):
+
+- a custom grid can be defined & used by default
+- mines display on "game over" can be disabled
+- a specific cell can be revealed at the start of a game
+- the `Exit` menu option actually closes the current tab
 
 ## Try it now!
 

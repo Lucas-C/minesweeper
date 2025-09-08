@@ -1,6 +1,9 @@
 import React from 'react';
 import Minesweeper from './Minesweeper';
 
+import { DEFAULT_DIFFICULTY } from './Minesweeper/config';
+
+
 function App() {
   const [platform, setPlatform] = React.useState(
     window.innerWidth <= 1280 ? 'mobile' : 'desktop',
@@ -56,10 +59,11 @@ function App() {
         }
       >
         <Minesweeper
-          defaultDifficulty="Beginner"
+          defaultDifficulty={ DEFAULT_DIFFICULTY }
           sameTouchPos={samePos}
           lastTouch={lastTouch}
           platform={platform}
+          onClose={() => window.close()}
         />
       </div>
     </div>
