@@ -10,9 +10,11 @@ Features:
 - Switch difficulty from the menu
 - Support mobile! (long press for placing flags)
 
+This **fork** of [ShizukuIchi/minesweeper](https://github.com/ShizukuIchi/minesweeper) simply adds the possibility to define custom fixed grids, _cf._ [src/Minesweeper/config.js](./src/Minesweeper/config.js)
+
 ## Try it now!
 
-Minesweeper 👉 https://mines.now.sh
+Minesweeper 👉 https://lucas-c.github.io/minesweeper
 
 ![](https://i.imgur.com/EoSzjCx.png)
 ![](https://i.imgur.com/ryy5BiC.png)

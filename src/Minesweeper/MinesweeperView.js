@@ -133,6 +133,7 @@ function MineSweeperView({
       default:
         openingCeil(-1);
     }
+  // eslint-disable-next-line
   }, [openBehavior.index, openBehavior.behavior]);
   function onMouseDownCeils(e, index) {
     if (e.button === 2 && e.buttons === 2 && index !== -1) {
@@ -195,6 +196,10 @@ function MineSweeperView({
       changeCeilState(index);
     }
   }
+  function onSelectLevel(difficulty) {
+    onReset(difficulty)
+    setOpenOption('') // Close menu
+  }
   useEffect(() => {
     window.addEventListener('touchend', onTouchEndDropdown);
     window.addEventListener('mouseup', onMouseUp);
@@ -212,7 +217,7 @@ function MineSweeperView({
         >
           <div className="mine__drop-down__title">Game</div>
           <div className="mine__drop-down__menu">
-            <div className="mine__drop-down__row" onMouseUp={() => onReset()}>
+            <div className="mine__drop-down__row" onMouseUp={() => onSelectLevel(difficulty)}>
               <div className="mine__drop-down__check" />
               <div className="mine__drop-down__text">New</div>
               <span className="mine__drop-down__hot-key">F2</span>
@@ -221,8 +226,8 @@ function MineSweeperView({
             <div className="mine__drop-down__separator" />
             <div
               className="mine__drop-down__row"
-              onMouseUp={() => onReset('Beginner')}
-              onTouchStart={() => onReset('Beginner')}
+              onMouseUp={() => onSelectLevel('Beginner')}
+              onTouchStart={() => onSelectLevel('Beginner')}
             >
               <div className="mine__drop-down__check">
                 {difficulty === 'Beginner' && (
@@ -235,8 +240,8 @@ function MineSweeperView({
             </div>
             <div
               className="mine__drop-down__row"
-              onMouseUp={() => onReset('Intermediate')}
-              onTouchStart={() => onReset('Intermediate')}
+              onMouseUp={() => onSelectLevel('Intermediate')}
+              onTouchStart={() => onSelectLevel('Intermediate')}
             >
               <div className="mine__drop-down__check">
                 {difficulty === 'Intermediate' && (
@@ -249,8 +254,8 @@ function MineSweeperView({
             </div>
             <div
               className="mine__drop-down__row"
-              onMouseUp={() => onReset('Expert')}
-              onTouchStart={() => onReset('Expert')}
+              onMouseUp={() => onSelectLevel('Expert')}
+              onTouchStart={() => onSelectLevel('Expert')}
             >
               <div className="mine__drop-down__check">
                 {difficulty === 'Expert' && <img src={checked} alt="checked" />}
@@ -259,8 +264,14 @@ function MineSweeperView({
               <span className="mine__drop-down__hot-key" />
               <div className="mine__drop-down__arrow" />
             </div>
-            <div className="mine__drop-down__row">
-              <div className="mine__drop-down__check" />
+            <div
+              className="mine__drop-down__row"
+              onMouseUp={() => onSelectLevel('Custom')}
+              onTouchStart={() => onSelectLevel('Custom')}
+            >
+              <div className="mine__drop-down__check" >
+                {difficulty === 'Custom' && <img src={checked} alt="checked" />}
+              </div>
               <span>Custom...</span>
               <span className="mine__drop-down__hot-key" />
               <div className="mine__drop-down__arrow" />
@@ -340,7 +351,7 @@ function MineSweeperView({
               <div className="mine__drop-down__check" />
               <a
                 className="mine__drop-down__text"
-                href="https://github.com/ShizukuIchi/minesweeper"
+                href="https://github.com/Lucas-C/minesweeper"
               >
                 Github
               </a>
@@ -374,7 +385,7 @@ function MineSweeperView({
             {renderDigits(remainMines())}
           </div>
           <div className="mine__face__outer">
-            <button ref={face} className="mine__face" onClick={() => onReset()}>
+            <button ref={face} className="mine__face" onClick={() => onSelectLevel(difficulty)}>
               {statusFace()}
               <img alt="smile" src={smile} />
             </button>

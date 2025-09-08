@@ -3,13 +3,13 @@ import Minesweeper from './Minesweeper';
 
 function App() {
   const [platform, setPlatform] = React.useState(
-    window.innerWidth <= 768 ? 'mobile' : 'desktop',
+    window.innerWidth <= 1280 ? 'mobile' : 'desktop',
   );
   const [lastTouch, setLastTouch] = React.useState(new Date());
   const [samePos, setSamePos] = React.useState(false);
   React.useEffect(() => {
     function onResize() {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1280) {
         setPlatform('mobile');
       } else {
         setPlatform('desktop');
@@ -35,21 +35,12 @@ function App() {
   }, []);
   return (
     <div
-      style={
-        platform === 'desktop'
-          ? {
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100%',
-            }
-          : {
-              display: 'flex',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              height: '100%',
-            }
-      }
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+      }}
     >
       <div
         style={
@@ -59,7 +50,7 @@ function App() {
               }
             : {
                 transform: 'scale(1.8)',
-                transformOrigin: 'left top',
+                transformOrigin: 'center center',
                 display: 'inline-block',
               }
         }

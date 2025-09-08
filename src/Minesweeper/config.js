@@ -1,4 +1,14 @@
 export const Config = {
+  Custom: {
+    grid: `
+ 
+  ** *** *** 
+ * *   *   * 
+   * *** *** 
+   * *     * 
+   * *** *** 
+ `.split('\n').filter(row => row),
+  },
   Beginner: {
     rows: 9,
     columns: 9,
@@ -18,3 +28,7 @@ export const Config = {
     mines: 99,
   },
 };
+
+Config.Custom.rows = Config.Custom.grid.length
+Config.Custom.columns = Math.max(...Config.Custom.grid.map(row => row.length))
+Config.Custom.mines = Config.Custom.grid.reduce((count, row) => count + row.split('').filter(char => char !== ' ').length, 0);

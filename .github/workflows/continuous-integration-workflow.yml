@@ -1,0 +1,48 @@
+name: build-and-deploy
+
+on:  # cf. https://github.community/t/how-to-trigger-an-action-on-push-or-pull-request-but-not-both/16662
+  push:
+    branches:
+    - master
+    tags:
+    - '*'
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+      - name: Enable corepack 🔧
+        run: corepack enable
+      - name: Set up NodeJS 🔧
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+      - name: Install dependencies ⚙️
+        run: yarn install --frozen-lockfile
+      - name: Generating HTML pages & PDF docs 🏗️
+        env:
+          # Configure React base URL:
+          PUBLIC_URL: /minesweeper/
+        run: yarn build
+      - name: Upload static files as artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

@@ -271,10 +271,18 @@ function genGameConfig(config) {
 }
 
 function insertMines(config, originCeils) {
-  const { rows, columns, mines, exclude } = config;
+  const { rows, columns, mines, exclude, grid } = config;
   const ceils = originCeils.map(ceil => ({ ...ceil }));
   if (rows * columns !== ceils.length)
     throw new Error('rows and columns not equal to ceils');
+  if (grid) {
+    return {
+      rows,
+      columns,
+      ceils: buildCustomGrid(ceils, rows, columns, grid),
+      mines,
+    };
+  }
   const indexArray = [...Array(rows * columns).keys()];
   sampleSize(indexArray.filter(i => i !== exclude), mines).forEach(chosen => {
     ceils[chosen].minesAround = -10;
@@ -288,6 +296,20 @@ function insertMines(config, originCeils) {
     ceils,
     mines,
   };
+}
+
+function buildCustomGrid(cells, rows, columns, grid) {
+  for (const [row_i, row] of grid.entries()) {
+    for (const [col_j, char] of row.split('').entries()) {
+      if (char === ' ') continue; // not a mine
+      const cellIndex = row_i * columns + col_j;
+      cells[cellIndex].minesAround = -10;
+      getNearIndexes(cellIndex, rows, columns).forEach(nearIndex => {
+        cells[nearIndex].minesAround += 1;
+      });
+    }
+  }
+  return cells
 }
 
 function autoCeils(state, index) {
